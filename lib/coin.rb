@@ -1,6 +1,6 @@
 class Coin
 
-  def initialize(value, quantity)
+  def initialize(value:, quantity:)
     @value = value
     @quantity = quantity
   end

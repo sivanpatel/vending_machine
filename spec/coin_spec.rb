@@ -2,7 +2,7 @@ require 'coin'
 
 describe Coin do
 
-  let(:twenty) { described_class.new(20, 5) }
+  let(:twenty) { described_class.new(value: 20, quantity: 5) }
 
   it 'has a value' do
     expect(twenty.value).to eq 20
