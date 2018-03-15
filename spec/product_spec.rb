@@ -20,4 +20,9 @@ describe Product do
     sandwich = Product.new(name: 'Sandwich', price: 1.00)
     expect(sandwich.quantity).to eq 5
   end
+
+  it 'releases a product' do
+    lucozade.release
+    expect(lucozade.quantity).to eq 9
+  end
 end

@@ -18,4 +18,8 @@ class Product
     @quantity
   end
 
+  def release
+    @quantity -= 1
+  end
+
 end
