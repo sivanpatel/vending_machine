@@ -25,4 +25,9 @@ describe Product do
     lucozade.release
     expect(lucozade.quantity).to eq 9
   end
+
+  it 'restocks a product by a given amount' do
+    lucozade.restock(5)
+    expect(lucozade.quantity).to eq 15
+  end
 end

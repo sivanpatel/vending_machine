@@ -22,4 +22,7 @@ class Product
     @quantity -= 1
   end
 
+  def restock(amount)
+    @quantity += amount
+  end
 end
