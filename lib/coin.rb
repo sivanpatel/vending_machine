@@ -12,4 +12,8 @@ class Coin
   def quantity
     @quantity
   end
+
+  def restock(amount)
+    @quantity += amount
+  end
 end

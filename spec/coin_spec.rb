@@ -16,4 +16,9 @@ describe Coin do
     coin = described_class.new(value: 10)
     expect(coin.quantity).to eq 10
   end
+
+  it 'can restock coins by a certain amount' do
+    twenty.restock(5)
+    expect(twenty.quantity).to eq 10
+  end
 end
