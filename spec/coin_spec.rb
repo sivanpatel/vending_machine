@@ -21,4 +21,9 @@ describe Coin do
     twenty.restock(5)
     expect(twenty.quantity).to eq 10
   end
+
+  it 'can release an amount of coins' do
+    twenty.release(3)
+    expect(twenty.quantity).to eq 2
+  end
 end
