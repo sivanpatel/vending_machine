@@ -15,4 +15,9 @@ describe Product do
   it 'has an initial quantity' do
     expect(lucozade.quantity).to eq 10
   end
+
+  it 'can be initialized with a default quantity of 5' do
+    sandwich = Product.new(name: 'Sandwich', price: 1.00)
+    expect(sandwich.quantity).to eq 5
+  end
 end

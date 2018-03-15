@@ -1,6 +1,6 @@
 class Product
 
-  def initialize(name:, price:, quantity:)
+  def initialize(name:, price:, quantity: 5)
     @name = name
     @price = price
     @quantity = quantity
