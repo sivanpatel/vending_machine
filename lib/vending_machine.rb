@@ -17,7 +17,7 @@ class VendingMachine
   end
 
   def bank
-    @bank.coins
+    @bank
   end
 
   def coins_entered
@@ -34,8 +34,9 @@ class VendingMachine
 
   def order_item(item_number)
     item_index = item_number - 1
-    stock[item_index].release
-    stock[item_index].name
+    item = stock[item_index]
+    item.release if bank.sum_deposit(coins_entered) >= item.price
+    item.name
   end
 
   private
