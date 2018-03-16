@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gem 'terminal-table'
+
 group :development, :test do
   gem 'pry'
 end
