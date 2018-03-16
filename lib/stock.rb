@@ -13,4 +13,9 @@ class Stock
   def stocklist
     @stock
   end
+
+  def restock_product(product_name, amount)
+    product = stocklist.find { |product| product.name == product_name }
+    product.restock(amount)
+  end
 end
