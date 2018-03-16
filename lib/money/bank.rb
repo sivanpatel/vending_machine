@@ -20,6 +20,7 @@ module Money
     end
 
     def withdraw_coins(withdrawal)
+      ensure_enough_coins(withdrawal)
       withdrawal.each do |coin_value, amount|
         coins.find { |coin| coin.value == coin_value }.release(amount)
       end
@@ -30,6 +31,14 @@ module Money
     def initial_deposit
       VALID_COIN_DENOMINATIONS.map do |coin_value|
         Coin.new(value: coin_value)
+      end
+    end
+
+    def ensure_enough_coins(withdrawal)
+      withdrawal.each do |coin_value, amount|
+        coins.find do |coin|
+          raise "Not enough change in the machine" if coin.quantity < amount
+        end
       end
     end
   end

@@ -3,7 +3,7 @@ require 'money/bank'
 describe Money::Bank do
 
   let(:bank) { described_class.new }
-  let(:coin) { instance_double("Coin", value: 5, restock: nil, release: nil) }
+  let(:coin) { instance_double("Coin", value: 5, quantity: 10, restock: nil, release: nil) }
 
   it 'starts with a set of coins' do
     expect(bank.coins).not_to be_empty
@@ -16,7 +16,6 @@ describe Money::Bank do
   end
 
   describe '#deposit_coins' do
-
     it 'sends the restock message to coin' do
       allow(bank).to receive(:coins).and_return([coin])
       deposit = {5=>1}
@@ -31,6 +30,12 @@ describe Money::Bank do
       withdrawal = {5=>2}
       expect(coin).to receive(:release).with(2)
       bank.withdraw_coins(withdrawal)
+    end
+
+    it 'raises an error if there are not enough coins in the machine' do
+      allow(bank).to receive(:coins).and_return([coin])
+      withdrawal = {5=>11}
+      expect{ bank.withdraw_coins(withdrawal) }.to raise_error 'Not enough change in the machine'
     end
   end
 end
