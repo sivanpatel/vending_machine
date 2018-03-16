@@ -15,6 +15,11 @@ describe Money::Bank do
     end
   end
 
+  it 'sums a total deposit' do
+    deposit = {5=>3,20=>1}
+    expect(bank.sum_deposit(deposit)).to eq 35
+  end
+
   describe '#deposit_coins' do
     it 'sends the restock message to coin' do
       allow(bank).to receive(:coins).and_return([coin])

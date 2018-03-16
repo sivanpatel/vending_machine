@@ -26,6 +26,14 @@ module Money
       end
     end
 
+    def sum_deposit(deposit)
+      sum = 0
+      deposit.each do |coin_value, amount|
+        sum += (coin_value * amount)
+      end
+      sum
+    end
+
     private
 
     def initial_deposit
