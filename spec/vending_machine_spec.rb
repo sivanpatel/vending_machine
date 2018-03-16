@@ -23,5 +23,9 @@ describe VendingMachine do
     vending_machine.enter_coin(5)
     expect(vending_machine.coins_entered).to eq({20=>2,5=>1})
   end
+
+  it 'can order an item' do
+    expect(vending_machine.order_item(1)).to eq 'Espresso'
+  end
 end
 

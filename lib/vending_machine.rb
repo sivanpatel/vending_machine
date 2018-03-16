@@ -32,6 +32,12 @@ class VendingMachine
     @coins[coin_value].nil? ? @coins[coin_value] = 1 : @coins[coin_value] += 1
   end
 
+  def order_item(item_number)
+    item_index = item_number - 1
+    stock[item_index].release
+    stock[item_index].name
+  end
+
   private
 
   def table_rows
