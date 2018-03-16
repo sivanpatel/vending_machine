@@ -20,4 +20,10 @@ describe Stock do
     expect(product).to receive(:restock).with 3
     stock.restock_product(product.name, 3)
   end
+
+  it 'can release a product' do
+    allow(stock).to receive(:stocklist).and_return([product])
+    expect(product).to receive(:release)
+    stock.release_product(product.name)
+  end
 end
