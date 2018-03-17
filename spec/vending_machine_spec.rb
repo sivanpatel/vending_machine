@@ -73,6 +73,18 @@ describe VendingMachine do
       expect_any_instance_of(Stock).to receive(:release_product).with(0)
       vending_machine.vend_item
     end
+
+    it 'raises an error if the item is out of stock' do
+      vending_machine.choose_product(1)
+      vending_machine.enter_coin(200)
+      vending_machine.enter_coin(200)
+      vending_machine.vend_item
+      vending_machine.vend_item
+      vending_machine.vend_item
+      vending_machine.vend_item
+      vending_machine.vend_item
+      expect { vending_machine.vend_item }.to raise_error 'Product out of stock'
+    end
   end
 end
 
