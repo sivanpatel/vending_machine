@@ -31,7 +31,7 @@ class VendingMachine
   end
 
   def enter_coin(coin_value)
-    raise "Not a valid coin" unless VALID_COIN_DENOMINATIONS.include?(coin_value)
+    return "Not a valid coin" unless VALID_COIN_DENOMINATIONS.include?(coin_value)
     @coins[coin_value].nil? ? @coins[coin_value] = 1 : @coins[coin_value] += 1
   end
 
@@ -45,8 +45,8 @@ class VendingMachine
   end
 
   def vend_item
-    raise 'No item has been chosen' unless @product_chosen
-    raise 'Not enough money has been entered' unless enough_money_entered
+    return 'No item has been chosen' unless @product_chosen
+    return 'Not enough money has been entered' unless enough_money_entered
     @change_to_dispense = Money::Transaction.new(product_value: @product_chosen.price, money_given: bank.sum_deposit(coins_entered)).change
     stock.release_product(@product_index)
   end

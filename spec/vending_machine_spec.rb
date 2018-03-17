@@ -24,7 +24,7 @@ describe VendingMachine do
   end
 
   it 'raises an error if an unrecognized coin is entered' do
-    expect { vending_machine.enter_coin(3) }.to raise_error "Not a valid coin"
+    expect(vending_machine.enter_coin(3)).to eq "Not a valid coin"
     expect(vending_machine.coins_entered).to eq({})
   end
 
@@ -50,13 +50,13 @@ describe VendingMachine do
 
   describe '#vend_item' do
     it 'raises an error if no product has been chosen' do
-      expect { vending_machine.vend_item }.to raise_error 'No item has been chosen'
+      expect(vending_machine.vend_item).to eq 'No item has been chosen'
     end
 
     it 'raises an error if not enough money has been entered' do
       vending_machine.choose_product(1)
       vending_machine.enter_coin(1)
-      expect { vending_machine.vend_item }.to raise_error 'Not enough money has been entered'
+      expect(vending_machine.vend_item).to eq 'Not enough money has been entered'
     end
 
     it 'records the amount of change to be given' do

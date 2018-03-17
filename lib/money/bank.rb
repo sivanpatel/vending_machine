@@ -20,7 +20,7 @@ module Money
     end
 
     def withdraw_coins(withdrawal)
-      ensure_enough_coins(withdrawal)
+      return 'Not enough change in the machine' unless ensure_enough_coins(withdrawal)
       withdrawal.each do |coin_value, amount|
         coins.find { |coin| coin.value == coin_value }.release(amount)
       end
@@ -45,7 +45,7 @@ module Money
     def ensure_enough_coins(withdrawal)
       withdrawal.each do |coin_value, amount|
         coins.find do |coin|
-          raise "Not enough change in the machine" if coin.quantity < amount
+          return false if coin.quantity < amount
         end
       end
     end

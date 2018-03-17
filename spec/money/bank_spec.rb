@@ -40,7 +40,7 @@ describe Money::Bank do
     it 'raises an error if there are not enough coins in the machine' do
       allow(bank).to receive(:coins).and_return([coin])
       withdrawal = {5=>11}
-      expect{ bank.withdraw_coins(withdrawal) }.to raise_error 'Not enough change in the machine'
+      expect(bank.withdraw_coins(withdrawal)).to eq 'Not enough change in the machine'
     end
   end
 end
