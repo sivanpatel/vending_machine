@@ -44,6 +44,10 @@ class VendingMachine
     bank.sum_deposit(coins_entered) >= @product_chosen.price
   end
 
+  def vend_item
+    raise 'No item has been chosen' unless @product_chosen
+  end
+
   private
 
   def table_rows

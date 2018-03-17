@@ -48,5 +48,10 @@ describe VendingMachine do
     end
   end
 
+  describe '#vend_item' do
+    it 'raises an error if no product has been chosen' do
+      expect { vending_machine.vend_item }.to raise_error 'No item has been chosen'
+    end
+  end
 end
 
