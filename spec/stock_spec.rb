@@ -18,12 +18,12 @@ describe Stock do
   it 'can restock a product' do
     allow(stock).to receive(:stocklist).and_return([product])
     expect(product).to receive(:restock).with 3
-    stock.restock_product(product.name, 3)
+    stock.restock_product(0, 3)
   end
 
   it 'can release a product' do
     allow(stock).to receive(:stocklist).and_return([product])
     expect(product).to receive(:release)
-    stock.release_product(product.name)
+    stock.release_product(0)
   end
 end
