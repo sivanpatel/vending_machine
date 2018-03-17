@@ -1,6 +1,7 @@
 require 'terminal-table'
 require_relative './stock'
 require_relative './money/bank'
+require_relative './money/transaction'
 
 class VendingMachine
 
@@ -10,10 +11,11 @@ class VendingMachine
     @stock = Stock.new
     @bank = Money::Bank.new
     @coins = {}
+    @product_chosen
   end
 
   def stock
-    @stock.stocklist
+    @stock
   end
 
   def bank
@@ -29,21 +31,20 @@ class VendingMachine
   end
 
   def enter_coin(coin_value)
+    raise "Not a valid coin" unless VALID_COIN_DENOMINATIONS.include?(coin_value)
     @coins[coin_value].nil? ? @coins[coin_value] = 1 : @coins[coin_value] += 1
   end
 
-  def order_item(item_number)
-    item_index = item_number - 1
-    item = stock[item_index]
-    item.release if bank.sum_deposit(coins_entered) >= item.price
-    item.name
+  def choose_product(product_number)
+    product_index = product_number - 1
+    @product_chosen = stock.stocklist[product_index]
   end
 
   private
 
   def table_rows
     rows = []
-    stock.each_with_index do |product, index|
+    stock.stocklist.each_with_index do |product, index|
       rows << [(index + 1), product.name, product.price, product.quantity]
     end
     rows

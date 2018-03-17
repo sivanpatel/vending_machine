@@ -5,7 +5,7 @@ describe VendingMachine do
   let(:vending_machine) { described_class.new }
 
   it 'is initialized with a stocklist' do
-    expect(vending_machine.stock.length).to eq 5
+    expect(vending_machine.stock.stocklist.length).to eq 5
   end
 
   it 'starts with initially empty coins' do
@@ -23,9 +23,14 @@ describe VendingMachine do
     expect(vending_machine.coins_entered).to eq({20=>2,5=>1})
   end
 
-  it 'can order an item if enough money has been inserted' do
-    vending_machine.enter_coin(100)
-    expect(vending_machine.order_item(1)).to eq 'Espresso'
+  it 'raises an error if an unrecognized coin is entered' do
+    expect { vending_machine.enter_coin(3) }.to raise_error "Not a valid coin"
+    expect(vending_machine.coins_entered).to eq({})
   end
+
+  it 'chooses a product from the product list' do
+    expect(vending_machine.choose_product(3)).to be_a Product
+  end
+
 end
 
