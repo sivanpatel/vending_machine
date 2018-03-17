@@ -52,6 +52,27 @@ describe VendingMachine do
     it 'raises an error if no product has been chosen' do
       expect { vending_machine.vend_item }.to raise_error 'No item has been chosen'
     end
+
+    it 'raises an error if not enough money has been entered' do
+      vending_machine.choose_product(1)
+      vending_machine.enter_coin(1)
+      expect { vending_machine.vend_item }.to raise_error 'Not enough money has been entered'
+    end
+
+    it 'records the amount of change to be given' do
+      vending_machine.choose_product(1)
+      vending_machine.enter_coin(100)
+      vending_machine.vend_item
+      expect(vending_machine.change_to_dispense).to_not be nil
+    end
+
+    it 'dispenses the item' do
+      allow_any_instance_of(Stock).to receive(:release_product)
+      vending_machine.choose_product(1)
+      vending_machine.enter_coin(100)
+      expect_any_instance_of(Stock).to receive(:release_product).with(0)
+      vending_machine.vend_item
+    end
   end
 end
 
