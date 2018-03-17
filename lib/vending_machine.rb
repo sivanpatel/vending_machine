@@ -40,6 +40,10 @@ class VendingMachine
     @product_chosen = stock.stocklist[product_index]
   end
 
+  def enough_money_entered
+    bank.sum_deposit(coins_entered) >= @product_chosen.price
+  end
+
   private
 
   def table_rows
