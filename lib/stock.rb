@@ -17,16 +17,22 @@ class Stock
 
   def release_product(product_index)
     product = stocklist[product_index]
-    product.release
+    in_stock?(product_index) ? product.release : raise('Product out of stock')
+  end
+
+  def in_stock?(product_index)
+    !stocklist[product_index].quantity.zero?
   end
 
   private
 
   def generate_stocklist
-    [Product.new(name: 'Espresso', price: 37),
+    [
+     Product.new(name: 'Espresso', price: 37),
      Product.new(name: 'Capuccino', price: 43),
      Product.new(name: 'Latte', price: 29),
      Product.new(name: 'Americano', price: 15),
-     Product.new(name: 'Flat White', price: 50)]
+     Product.new(name: 'Flat White', price: 50)
+    ]
   end
 end
