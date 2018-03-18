@@ -32,6 +32,14 @@ describe VendingMachine do
     expect(vending_machine.choose_product(3)).to be_a Product
   end
 
+  it 'prints the change to dispense nicely' do
+    vending_machine.enter_coin(20)
+    vending_machine.enter_coin(20)
+    vending_machine.choose_product(1)
+    vending_machine.vend_item
+    expect(vending_machine.dispense_change).to eq '2p, 1p'
+  end
+
   describe '#enough_money_entered' do
     before do
       vending_machine.choose_product(1)
