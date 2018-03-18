@@ -101,4 +101,4 @@ class VendingMachineController
   end
 end
 
-VendingMachineController.new.start_vending_machine
+# VendingMachineController.new.start_vending_machine
