@@ -60,9 +60,9 @@ class VendingMachine
     change = []
     @change_to_dispense.each do |coin_value, amount|
       if coin_value == 100 || coin_value == 200
-        amount.times { |_| change << "£#{Money::Converter.pence_to_pounds(coin_value)}" }
+        amount.times { change << "£#{Money::Converter.pence_to_pounds(coin_value)}" }
       else
-        amount.times { |_| change << "#{coin_value}p" }
+        amount.times { change << "#{coin_value}p" }
       end
     end
     reset_change
@@ -92,4 +92,3 @@ class VendingMachine
     @change_to_dispense.clear
   end
 end
-
