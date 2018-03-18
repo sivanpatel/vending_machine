@@ -50,17 +50,23 @@ class VendingMachineController
 
   def get_coin_to_restock
     puts 'Enter the denomination of coin that you want to restock'
-    STDIN.gets.chomp.to_i
+    input = STDIN.gets.chomp.to_i
+    return unless check_input_is_a_number(input)
+    input
   end
 
   def get_amount_to_restock
     puts 'Enter how many you want to restock by'
-    STDIN.gets.chomp.to_i
+    input = STDIN.gets.chomp.to_i
+    return unless check_input_is_a_number(input)
+    input
   end
 
   def get_product_to_restock
     puts 'Enter the product number that you want to restock'
-    STDIN.gets.chomp.to_i - 1
+    input = STDIN.gets.chomp.to_i
+    return unless check_input_is_a_number(input)
+    input - 1
   end
 
   def sell_item
@@ -78,7 +84,7 @@ class VendingMachineController
     if vending_machine.bank.ensure_enough_coins(vending_machine.coins_entered)
       true
     else
-      puts "there isn't enough change in the machine, please restock the coins before proceeding"
+      puts "There isn't enough change in the machine, please restock the coins before proceeding"
       coins_restock_control_flow
     end
   end
@@ -150,5 +156,13 @@ class VendingMachineController
   def check_recognized_coin(coin)
     puts 'Try another coin, this one is unrecognized' unless Money::Bank::VALID_COIN_DENOMINATIONS.include?(coin.to_i) || coin == ''
   end
-end
 
+  def check_input_is_a_number(number)
+    if number.class == Integer && number != 0
+      true
+    else
+      puts 'Unrecognized input, sending you back to Restock options'
+      restock_control_flow
+    end
+  end
+end
