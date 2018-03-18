@@ -3,11 +3,11 @@ module Money
 
     class << self
       def pounds_to_pence(amount)
-        validate_pounds_input(amount) ? (amount * 100) : raise('Invalid value entered')
+        validate_pounds_input(amount) ? (amount * 100) : (return 'Invalid value entered')
       end
 
       def pence_to_pounds(amount)
-        validate_pence_input(amount) ? (amount.to_f / 100) : raise('Invalid value entered')
+        validate_pence_input(amount) ? (amount.to_f / 100) : (return 'Invalid value entered')
       end
 
       private
