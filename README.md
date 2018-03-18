@@ -9,6 +9,16 @@ This is a simulation of a vending machine, using the following rules:
   - There should be a way of reloading either products or change at a later point.
   - The machine should keep track of the products and change that it contains.
 
+## To run
+
+To run the program, use the following commands:
+```
+bundle install
+ruby start_vending_machine.rb
+```
+If pressing the enter button returns the character `^M`, exit the program with `Ctrl-C`, and then run the command `stty sane` in the command line.
+
+To run the tests, in the root directory run the command: `rspec`
 
 ### File Structure
 ```
