@@ -19,18 +19,15 @@ class VendingMachineController
   end
 
   def control_flow
-    puts "'Buy' if you want to purchase an item, 'Restock' if you want to restock the machine with coins or products, or 'Exit' if you want to exit"
     get_inital_input
   end
 
   def restock_control_flow
-    puts "'Coins' if you want to restock coins, 'Products' if you want to restock products"
     get_restock_input
   end
 
   def vending_control_flow
     enter_coins
-    puts 'Enter the product code that you want to buy'
     sell_item
     return
   end
@@ -67,14 +64,34 @@ class VendingMachineController
   end
 
   def sell_item
+    puts 'Enter the product code that you want to buy'
     product_code = STDIN.gets.chomp.to_i
     vending_machine.choose_product(product_code)
+    return unless check_enough_money_entered
     vending_machine.vend_item
-    puts "Here is your #{vending_machine.product_chosen.name}!"
-    puts "Here is your change: #{vending_machine.dispense_change}"
+    purchase_successful(product_code)
+  end
+
+  def check_enough_money_entered
+    if vending_machine.enough_money_entered
+      true
+    else
+      puts 'You need to enter more money before buying'
+      enter_coins
+    end
+  end
+
+  def purchase_successful(product_code)
+    if vending_machine.stock.in_stock?(product_code - 1)
+      puts "Here is your #{vending_machine.product_chosen.name}!"
+      puts "Here is your change: #{vending_machine.dispense_change}"
+    else
+      puts "This product is out of stock, try something else"
+    end
   end
 
   def get_restock_input
+    puts "'Coins' if you want to restock coins, 'Products' if you want to restock products"
     input = STDIN.gets.chomp
     input = input.strip.downcase
     return unless input == 'products' || input == 'coins'
@@ -83,6 +100,7 @@ class VendingMachineController
   end
 
   def get_inital_input
+    puts "'Buy' if you want to purchase an item, 'Restock' if you want to restock the machine with coins or products, or 'Exit' if you want to exit"
     input = STDIN.gets.chomp
     input = input.strip.downcase
     return unless input == 'restock' || input == 'buy' || input == 'exit'
@@ -95,10 +113,19 @@ class VendingMachineController
     puts 'Enter the coins one at a time, hit enter once you are done'
     loop do
       coin = STDIN.gets.chomp
+      check_recognized_coin(coin)
       break if coin == ''
       vending_machine.enter_coin(coin.to_i)
+      running_total_coins
     end
+  end
+
+  def running_total_coins
+    puts "You have entered £#{Money::Converter.pence_to_pounds(vending_machine.bank.sum_deposit(vending_machine.coins_entered))} so far"
+  end
+
+  def check_recognized_coin(coin)
+    puts 'Try another coin, this one is unrecognized' unless Money::Bank::VALID_COIN_DENOMINATIONS.include?(coin.to_i) || coin == ''
   end
 end
 
-# VendingMachineController.new.start_vending_machine
