@@ -2,6 +2,7 @@ require 'terminal-table'
 require_relative './stock'
 require_relative './money/bank'
 require_relative './money/transaction'
+require_relative './money/converter'
 
 class VendingMachine
 
@@ -59,7 +60,7 @@ class VendingMachine
   def table_rows
     rows = []
     stock.stocklist.each_with_index do |product, index|
-      rows << [(index + 1), product.name, product.price, product.quantity]
+      rows << [(index + 1), product.name, "£#{Money::Converter.pence_to_pounds(product.price)}", product.quantity]
     end
     rows
   end
