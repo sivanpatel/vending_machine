@@ -7,7 +7,8 @@ require_relative './money/converter'
 class VendingMachine
 
   VALID_COIN_DENOMINATIONS = [200, 100, 50, 20, 10, 5, 2, 1]
-  attr_reader :change_to_dispense, :product_chosen
+  attr_reader :product_chosen
+  attr_accessor :change_to_dispense
 
   def initialize
     @stock = Stock.new
@@ -63,6 +64,7 @@ class VendingMachine
         amount.times { |_| change << "#{coin_value}p" }
       end
     end
+    reset_change
     change.join(', ')
   end
 
@@ -82,7 +84,11 @@ class VendingMachine
   end
 
   def reset_coins_entered
-    @coins = {}
+    @coins.clear
+  end
+
+  def reset_change
+    @change_to_dispense.clear
   end
 end
 
