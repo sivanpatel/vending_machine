@@ -49,7 +49,7 @@ class VendingMachineController
   private
 
   def get_coin_to_restock
-    puts 'Enter the denomination of coin that you want to restock'
+    puts 'Enter the denomination of coin that you want to restock. Valid amounts are: 1, 2, 5, 10, 20, 50, 100, or 200.'
     input = STDIN.gets.chomp.to_i
     return unless check_input_is_a_number(input)
     input
@@ -134,13 +134,13 @@ class VendingMachineController
   end
 
   def enter_coins
-    puts 'Enter the coins one at a time, hit enter once you are done'
+    puts 'Enter the coins one at a time, hit enter once you are done. Valid amounts are: 1, 2, 5, 10, 20, 50, 100, or 200.'
     loop do
+      running_total_coins
       coin = STDIN.gets.chomp
       check_recognized_coin(coin)
       break if coin == ''
       vending_machine.enter_coin(coin.to_i)
-      running_total_coins
     end
   end
 
