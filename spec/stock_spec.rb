@@ -41,7 +41,7 @@ describe Stock do
     end
 
     it 'raises an error instead of releasing product' do
-      expect{ stock.release_product(0) }.to raise_error 'Product out of stock'
+      expect(stock.release_product(0)).to eq 'Product out of stock'
     end
   end
 end
