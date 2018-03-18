@@ -14,6 +14,7 @@ class VendingMachine
     @stock = Stock.new
     @bank = Money::Bank.new
     @coins = {}
+    @change_to_dispense = {}
   end
 
   def stock
@@ -49,7 +50,7 @@ class VendingMachine
   def vend_item
     return 'No item has been chosen' unless @product_chosen
     return 'Not enough money has been entered' unless enough_money_entered
-    dispense_change
+    @change_to_dispense = Money::Transaction.new(product_value: @product_chosen.price, money_given: bank.sum_deposit(coins_entered)).change
     complete_transaction
     reset_coins_entered
     stock.release_product(@product_index)
@@ -57,7 +58,6 @@ class VendingMachine
 
   def dispense_change
     change = []
-    @change_to_dispense = Money::Transaction.new(product_value: @product_chosen.price, money_given: bank.sum_deposit(coins_entered)).change
     @change_to_dispense.each do |coin_value, amount|
       if coin_value == 100 || coin_value == 200
         amount.times { |_| change << "£#{Money::Converter.pence_to_pounds(coin_value)}" }
