@@ -66,6 +66,7 @@ class VendingMachineController
   def sell_item
     puts 'Enter the product code that you want to buy'
     product_code = STDIN.gets.chomp.to_i
+    return unless check_product_code_is_within_range(product_code)
     vending_machine.choose_product(product_code)
     return unless check_enough_money_entered
     return unless check_enough_change_in_machine
@@ -91,6 +92,15 @@ class VendingMachineController
     end
   end
 
+  def check_product_code_is_within_range(product_code)
+    if (1..vending_machine.stock.stocklist.length).include?(product_code)
+      true
+    else
+      puts "Sorry I don't recognize this product"
+      sell_item
+    end
+  end
+
   def purchase_successful(product_code)
     if vending_machine.stock.in_stock?(product_code - 1)
       puts "Here is your #{vending_machine.product_chosen.name}!"
@@ -102,8 +112,7 @@ class VendingMachineController
 
   def get_restock_input
     puts "'Coins' if you want to restock coins, 'Products' if you want to restock products"
-    input = STDIN.gets.chomp
-    input = input.strip.downcase
+    input = get_and_normalize_input
     return unless input == 'products' || input == 'coins'
     products_restock_control_flow if input == 'products'
     coins_restock_control_flow if input == 'coins'
@@ -111,8 +120,7 @@ class VendingMachineController
 
   def get_inital_input
     puts "'Buy' if you want to purchase an item, 'Restock' if you want to restock the machine with coins or products, or 'Exit' if you want to exit"
-    input = STDIN.gets.chomp
-    input = input.strip.downcase
+    input = get_and_normalize_input
     return unless input == 'restock' || input == 'buy' || input == 'exit'
     restock_control_flow if input == 'restock'
     vending_control_flow if input == 'buy'
@@ -128,6 +136,11 @@ class VendingMachineController
       vending_machine.enter_coin(coin.to_i)
       running_total_coins
     end
+  end
+
+  def get_and_normalize_input
+    input = STDIN.gets.chomp
+    input.strip.downcase
   end
 
   def running_total_coins
