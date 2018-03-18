@@ -68,8 +68,18 @@ class VendingMachineController
     product_code = STDIN.gets.chomp.to_i
     vending_machine.choose_product(product_code)
     return unless check_enough_money_entered
+    return unless check_enough_change_in_machine
     vending_machine.vend_item
     purchase_successful(product_code)
+  end
+
+  def check_enough_change_in_machine
+    if vending_machine.bank.ensure_enough_coins(vending_machine.coins_entered)
+      true
+    else
+      puts "there isn't enough change in the machine, please restock the coins before proceeding"
+      coins_restock_control_flow
+    end
   end
 
   def check_enough_money_entered
@@ -129,3 +139,4 @@ class VendingMachineController
   end
 end
 
+VendingMachineController.new.start_vending_machine

@@ -34,19 +34,19 @@ module Money
       sum
     end
 
-    private
-
-    def initial_deposit
-      VALID_COIN_DENOMINATIONS.map do |coin_value|
-        Coin.new(value: coin_value)
-      end
-    end
-
     def ensure_enough_coins(withdrawal)
       withdrawal.each do |coin_value, amount|
         coins.find do |coin|
           return false if coin.quantity < amount
         end
+      end
+    end
+
+    private
+
+    def initial_deposit
+      VALID_COIN_DENOMINATIONS.map do |coin_value|
+        Coin.new(value: coin_value)
       end
     end
   end
