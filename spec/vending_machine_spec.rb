@@ -74,16 +74,35 @@ describe VendingMachine do
       vending_machine.vend_item
     end
 
+    it 'sends a message to the bank to complete the transaction' do
+      vending_machine.choose_product(1)
+      vending_machine.enter_coin(100)
+      expect_any_instance_of(Money::Bank).to receive(:deposit_coins)
+      expect_any_instance_of(Money::Bank).to receive(:withdraw_coins)
+      vending_machine.vend_item
+    end
+
+    it 'resets the coins entered to an empty hash' do
+      vending_machine.choose_product(1)
+      vending_machine.enter_coin(100)
+      vending_machine.vend_item
+      expect(vending_machine.coins_entered).to eq({})
+    end
+
     it 'raises an error if the item is out of stock' do
       vending_machine.choose_product(1)
       vending_machine.enter_coin(200)
+      vending_machine.vend_item
       vending_machine.enter_coin(200)
       vending_machine.vend_item
+      vending_machine.enter_coin(200)
       vending_machine.vend_item
+      vending_machine.enter_coin(200)
       vending_machine.vend_item
+      vending_machine.enter_coin(200)
       vending_machine.vend_item
-      vending_machine.vend_item
-      expect { vending_machine.vend_item }.to raise_error 'Product out of stock'
+      vending_machine.enter_coin(200)
+      expect(vending_machine.vend_item).to eq 'Product out of stock'
     end
   end
 end

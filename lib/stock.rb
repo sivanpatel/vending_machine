@@ -17,7 +17,7 @@ class Stock
 
   def release_product(product_index)
     product = stocklist[product_index]
-    in_stock?(product_index) ? product.release : raise('Product out of stock')
+    in_stock?(product_index) ? product.release : (return 'Product out of stock')
   end
 
   def in_stock?(product_index)

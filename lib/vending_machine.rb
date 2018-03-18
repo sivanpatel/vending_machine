@@ -46,8 +46,11 @@ class VendingMachine
 
   def vend_item
     return 'No item has been chosen' unless @product_chosen
+    # require "pry"; binding.pry
     return 'Not enough money has been entered' unless enough_money_entered
     @change_to_dispense = Money::Transaction.new(product_value: @product_chosen.price, money_given: bank.sum_deposit(coins_entered)).change
+    complete_transaction
+    reset_coins_entered
     stock.release_product(@product_index)
   end
 
@@ -59,6 +62,15 @@ class VendingMachine
       rows << [(index + 1), product.name, product.price, product.quantity]
     end
     rows
+  end
+
+  def complete_transaction
+    bank.deposit_coins(coins_entered)
+    bank.withdraw_coins(@change_to_dispense)
+  end
+
+  def reset_coins_entered
+    @coins = {}
   end
 end
 

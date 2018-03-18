@@ -69,6 +69,7 @@ class VendingMachineController
       coin = STDIN.gets.chomp
       break if coin == ''
       vending_machine.enter_coin(coin.to_i)
+      puts vending_machine.bank.sum_deposit(vending_machine.coins_entered)
     end
   end
 end
