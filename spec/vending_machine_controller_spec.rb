@@ -64,10 +64,28 @@ describe VendingMachineController do
     end
   end
 
+  it 'redirects to the restock control flow if an invalid input is received' do
+    allow(STDIN).to receive(:gets).and_return('coins', '0')
+    expect(vending_machine_controller).to receive(:restock_control_flow)
+    vending_machine_controller.restock_control_flow
+  end
+
   describe '#vending_control_flow' do
     it 'allows you to buy a product' do
       allow(STDIN).to receive(:gets).and_return('1', '20', '100', '', '1')
       expect_any_instance_of(VendingMachine).to receive(:vend_item)
+      vending_machine_controller.vending_control_flow
+    end
+
+    it 'asks for more change if not enough has been inserted' do
+      allow(STDIN).to receive(:gets).and_return('10', '', '1')
+      expect(vending_machine_controller).to receive(:enter_coins).twice
+      vending_machine_controller.vending_control_flow
+    end
+
+    it 'asks for a different product if the product code is unrecognized' do
+      allow(STDIN).to receive(:gets).and_return('100', '100', '', 'a')
+      expect(vending_machine_controller).to receive(:sell_item)
       vending_machine_controller.vending_control_flow
     end
   end
