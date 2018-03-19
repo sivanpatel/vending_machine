@@ -65,7 +65,6 @@ class VendingMachineController
   def get_product_to_restock
     puts 'Enter the product number that you want to restock'
     input = STDIN.gets.chomp.to_i
-    require "pry"; binding.pry
     return unless check_input_is_a_number(input)
     input - 1
   end
